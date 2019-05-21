@@ -1,5 +1,6 @@
 const ProductsService = require('../services/productsService');
 const UtilsMailer = require('../utils/mailer');
+const UtilsBenchmark = require('../utils/benchmark');
 const ProductsCreateResponse = require('../response/productCreateResponse');
 
 //goal 

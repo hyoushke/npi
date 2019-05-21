@@ -43,8 +43,3 @@ exports.send_mail = () => {
     return true;
 
 }
-
-class NewMailer {
-    
-}
-

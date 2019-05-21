@@ -61,9 +61,6 @@ const specs = swaggerJsdoc(options);
 
 const swaggerUi = require('swagger-ui-express');
 
-/* 
-    Compression must be placed first before other express app use
-*/
 app.use(compression());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
