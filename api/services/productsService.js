@@ -32,7 +32,7 @@ exports.getAllProducts = () => {
 
 }
 
-exports.createProduct = (name, price, imageurl)=>{
+exports.createProduct = async (name, price, imageurl)=>{
    
     const Product = new ProductsModel({
         _id: new mongoose.Types.ObjectId(),
@@ -41,20 +41,15 @@ exports.createProduct = (name, price, imageurl)=>{
         imageurl: imageurl
     });
 
-    var data = Product.save()
+    var data = await Product.save()
            .then(result=>{
-               const data = { 
-                    message: 'Welcome to Products Routes via method POST',
-                    createdProduct: 
-
-                                    {id: result._id, 
-                                        name: result.name, 
-                                        price: result.price, 
-                                        imageurl: 'http://localhost:3000/' + result.imageurl, 
-                                        
-                                    }
-               }
-
+               const data = 
+                            {id: result._id, 
+                                name: result.name, 
+                                price: result.price, 
+                                imageurl: 'http://localhost:3000/' + result.imageurl, 
+                                
+                            }
                console.log(data);
                return data;
             })

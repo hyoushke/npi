@@ -1,3 +1,4 @@
+const compression = require('compression');
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
@@ -59,6 +60,11 @@ const options = {
 const specs = swaggerJsdoc(options);
 
 const swaggerUi = require('swagger-ui-express');
+
+/* 
+    Compression must be placed first before other express app use
+*/
+app.use(compression());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 

@@ -1,5 +1,7 @@
 const ProductsService = require('../services/productsService');
 const UtilsMailer = require('../utils/mailer');
+const ProductsCreateResponse = require('../response/productCreateResponse');
+
 //goal 
 //controllers only accepts req, res, next
 //controllers only response with *response*
@@ -17,14 +19,21 @@ class ProductsController extends Controller{
 exports.createProduct = async (req, res, next)=>{
     try
     {
+        const procesStart = process.hrtime();
         const name = req.body.name;
         const price = req.body.price;
         const imageurl = req.file.path;
 
         const productServiceData = await ProductsService.createProduct(name, price, imageurl);
-        res.status(200).json(productServiceData);
-        
+        const jsonResponse = ProductsCreateResponse.SuccessResponse(productServiceData);
 
+
+        const benchmarkNanoSeconds = process.hrtime(procesStart);
+        const benchmarkMiliSecondsPrecise = (benchmarkNanoSeconds[0]*1000) + (benchmarkNanoSeconds[1] / 1000000)
+        jsonResponse.benchmark = (benchmarkMiliSecondsPrecise + ' ms');
+
+
+        res.status(200).json(jsonResponse);
     }
     catch(error)
     {

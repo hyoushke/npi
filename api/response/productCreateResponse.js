@@ -3,11 +3,16 @@ exports.SuccessResponse = (data)=>{
         status : 'OK',
         code : 200,
         message : 'Successfully Created New Product',
-        details : data
+        details : data,
+        benchmark : 0
     }
+
+    console.log(response);
+
+    return response;
 }
 
-exports.SuccessResponse = (data)=>{
+exports.FailedResponse = (data)=>{
     const response = {
         status : 'OK',
         code : '200',
