@@ -88,10 +88,10 @@ app.use((req, res, next)=>{
 
 app.use('/products', productRoutes);
 app.use('/posts', postsRoutes);
-app.use('/comments', commentsRoutes);
-app.use('/shares', sharesRoutes);
-app.use('/views', viewsRoutes);
-app.use('/likes', likesRoutes);
+//app.use('/comments', commentsRoutes);
+//app.use('/shares', sharesRoutes);
+//app.use('/views', viewsRoutes);
+//app.use('/likes', likesRoutes);
 
 
 app.use('/users', usersRoutes);
