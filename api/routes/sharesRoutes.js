@@ -10,10 +10,7 @@ const SecurityCheckAuthMiddleware = require('../middlewares/check-auth');
 const SharesController = require('../controllers/sharesController');
 
 
-router.post('/', SharesController.createView);
-router.patch('/:postId', SharesController.updateShare);
-router.delete('/:postId', SharesController.removeShare);
-
+router.post('/', SharesController.createShare);
 
 router.get('/', SharesController.listShare);
 router.get('/:postId', SharesController.getShare);
