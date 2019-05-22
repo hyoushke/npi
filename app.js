@@ -11,11 +11,11 @@ const usersRoutes = require('./api/routes/usersRoute');
 
 const productRoutes = require('./api/routes/productsRoute');
 
-const postsRoute = require('./api/routes/postsRoute');
-const viewsRoute = require('./api/routes/viewsRoute');
-const commentsRoute = require('./api/routes/commentsRoute');
-const likesRoute = require('./api/routes/likesRoute');
-const sharesRoute = require('./api/routes/sharesRoute');
+const postsRoutes = require('./api/routes/postsRoutes');
+//const viewsRoute = require('./api/routes/viewsRoute');
+//const commentsRoute = require('./api/routes/commentsRoute');
+//const likesRoute = require('./api/routes/likesRoute');
+//const sharesRoute = require('./api/routes/sharesRoute');
 
 //app.use('/', swaggerUI.serve);
 //app.get('/swagger', swaggerUI.setup(swaggerDoc));

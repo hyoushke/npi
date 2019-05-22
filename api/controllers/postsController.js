@@ -1,4 +1,4 @@
-const ProductsService = require('../services/postsService');
+const PostsService = require('../services/postsService');
 const UtilsBenchmark = require('../utils/benchmark');
 
 const PostsCreateResponse = require('../response/posts/postsCreateResponse');
@@ -60,11 +60,69 @@ exports.createPosts = async (req, res, next)=>{
     }
 }
 
+
+
+
+/*
+exports.updateProduct = async (req, res, next)=>{
+    try
+    {
+        const postId = req.params.postId;
+        const postsServiceData = await PostsService.removeProductById(postId);
+
+        
+        const benchmarkNanoSeconds = process.hrtime(procesStart);
+        const benchmarkMiliSecondsPrecise = (benchmarkNanoSeconds[0]*1000) + (benchmarkNanoSeconds[1] / 1000000)
+        jsonResponse.benchmark = (benchmarkMiliSecondsPrecise + ' ms');
+
+        const jsonResponse = PostsUpdateResponse.SuccessResponse(postsServiceData);
+        res.status(200).json(jsonResponse);
+    }
+    catch(error)
+    {
+        const jsonResponse = PostsCreateResponse.FailedResponse(error);
+        res.status(400).json(jsonResponse)
+    }
+}
+
+exports.removeProduct = async (req, res, next)=>{
+    try
+    {
+        const postId = req.params.postId;
+        const postsServiceData = await postsService.removePost(postId);
+
+        res.status(200).json(productServiceData);
+    }
+    catch(error)
+    {
+        res.status(400).json({
+            "code": 0,
+            "message": "Fetch Products Failed",
+            "url": "http://localhost:3000/" + "products"
+        })
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 exports.listPosts = async (req, res, next)=>{
     try
     {
         const utilsMailer = await UtilsMailer.send_mail();
-        const productServiceData = await ProductsService.getAllProducts();
+        const productServiceData = await PostsService.getAllProducts();
 
         res.status(200).json(productServiceData);
 
@@ -83,7 +141,7 @@ exports.getProduct = async (req, res, next)=>{
     try
     {
         const postId = req.params.postId;
-        const postsServiceData = await ProductsService.getProductById(productId);
+        const postsServiceData = await postsService.get.getProductById(postId);
 
         res.status(200).json(productServiceData);
     }
@@ -97,38 +155,4 @@ exports.getProduct = async (req, res, next)=>{
     }
 }
 
-exports.updateProduct = async (req, res, next)=>{
-    try
-    {
-        const productId = req.params.productId;
-        const productServiceData = await ProductsService.removeProductById(productId);
-
-        res.status(200).json(productServiceData);
-    }
-    catch(error)
-    {
-        res.status(400).json({
-            "code": 0,
-            "message": "Fetch Products Failed",
-            "url": "http://localhost:3000/" + "products"
-        })
-    }
-}
-
-exports.removeProduct = async (req, res, next)=>{
-    try
-    {
-        const productId = req.params.productId;
-        const productServiceData = await ProductsService.removeProductById(productId);
-
-        res.status(200).json(productServiceData);
-    }
-    catch(error)
-    {
-        res.status(400).json({
-            "code": 0,
-            "message": "Fetch Products Failed",
-            "url": "http://localhost:3000/" + "products"
-        })
-    }
-}
+*/

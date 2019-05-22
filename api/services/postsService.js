@@ -1,7 +1,7 @@
 const PostsModel = require('../models/postsModel');
 const mongoose = require('mongoose');
 
-exports.createProduct = async (authorid, 
+exports.createPost = async (authorid, 
                                author, 
                                status, 
                                title, 
@@ -16,7 +16,7 @@ exports.createProduct = async (authorid,
                                datecreated, 
                                datemodified)=>{
    
-    const Product = new PostsModel({
+    const Post = new PostsModel({
         _id: new mongoose.Types.ObjectId(),
         _id: mongoose.Schema.Types.ObjectId,
         authorid: authorid,
@@ -35,37 +35,40 @@ exports.createProduct = async (authorid,
         datemodified: datemodified,
     });
 
-    var data = await Product.save()
-           .then(result=>{
-               const data = 
-                            {id: result._id, 
-                                name: result.name, 
-                                price: result.price, 
-                                imageurl: 'http://localhost:3000/' + result.imageurl, 
-                                
-                            }
-               console.log(data);
-               return data;
-            })
-           .catch(err=>{
-               console.log(err);
-               return err;
-            });
+    var postsServiceData = await Post
+    .save()
+    .then(result=>
+    {
+        const resultData = result;
+
+        //{
+        // id: result._id, 
+        // name: result.name, 
+        // price: result.price, 
+        // imageurl: 'http://localhost:3000/' + result.imageurl, 
+        //}
 
 
-            return data;
+        console.log(resultData);
+        return resultData;
+    })
+    .catch(resultError=>
+    {
+
+        console.log(resultError);
+        return resultError;
+    });
 
 
-
+    return postsServiceData;
 }
 
 exports.removePost = (postId)=>{
 
     var data = PostsModel.findById(postId)
-    .select('_id name price imageurl')
+    .select('_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified')
     .exec()
     .then(product=>{  
-                console.log(product); 
                 
                 const data = {count: 0, products: {}};
                 data.count = 1;
@@ -91,10 +94,11 @@ exports.removePost = (postId)=>{
 
 
 
-exports.getPost = (postId)=>{
+exports.getPost = async (postId)=>{
 
-    var data = PostsModel.findById(postId)
-    .select('_id name price imageurl')
+    var serviceDataPost = await PostsModel
+    .findById(postId)
+    .select('_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified')
     .exec()
     .then(product=>{  
                 console.log(product); 
@@ -115,13 +119,14 @@ exports.getPost = (postId)=>{
      });
 
 
-    return data;
+    return serviceDataPost;
 }
 
 exports.listPosts = () => {
     
-    const posts = PostsModel.find()
-    .select('_id name price imageurl')
+    const posts = PostsModel
+    .find()
+    .select('_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified')
     .exec()
     .then(rows=>{
                 if(rows.length >= 0)

@@ -10,13 +10,13 @@ const SecurityCheckAuthMiddleware = require('../middlewares/check-auth');
 const PostsController = require('../controllers/postsController');
 
 
-router.post('/', PostsController.createPost);
-router.patch('/:postId', PostsController.updatePost);
-router.delete('/:postId', PostsController.removePost);
+router.post('/', PostsController.createPosts);
+//router.patch('/:postId', PostsController.updatePost);
+//router.delete('/:postId', PostsController.removePost);
 
 
-router.get('/', PostsController.listPosts);
-router.get('/:postId', PostsController.getPost);
+//router.get('/', PostsController.listPosts);
+//router.get('/:postId', PostsController.getPost);
 
 
 module.exports = router;
