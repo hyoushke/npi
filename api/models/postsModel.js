@@ -6,15 +6,20 @@ mongoose.Promise = global.Promise;
 
 const postsSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    status : {type: String},
-    title : {type: String},
-    content : {type: String},
-    imageurl : {type: String},
-    tags : {type: String},
-    datecreated : {type: Date},
-    datemodified : {type: Date}
-
-
+    authorid: {type: String, required: true},
+    author: {type: String, required: true},
+    status: {type: String, required: true},
+    title: {type: String, required: true},
+    content: {type: String, required: true},
+    categories: {type: String, required: true},
+    tags: {type: String, required: true},
+    likes: {type: String, required: true},
+    subscribers: {type: String, required: true},
+    shares: {type: String, required: true},
+    views: {type: String, required: true},
+    imageurl: {type: String, required: true},
+    datecreated: {type: String, required: true},
+    datemodified: {type: String, required: true},
 });
 
 module.exports = mongoose.model('Posts', postsSchema);
