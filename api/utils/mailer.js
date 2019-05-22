@@ -28,7 +28,7 @@ exports.send_mail = () => {
         html: '<strong>Inline Attachment Image</strong> <br /><br /> <img src="cid:logo">',
         attachments: {
             filename: 'Logo.png',
-            path: ROOT_PATH + '/uploads/' + 'test.png',
+            path: ROOT_PATH + '/uploads/' + 'test.jpg',
             cid: 'logo'
 
         }
