@@ -7,9 +7,15 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const productRoutes = require('./api/routes/productsRoute')
-//const ordersRoutes = require('./api/routes/ordersRoute')
-const usersRoutes = require('./api/routes/usersRoute')
+const usersRoutes = require('./api/routes/usersRoute');
+
+const productRoutes = require('./api/routes/productsRoute');
+
+const postsRoute = require('./api/routes/postsRoute');
+const viewsRoute = require('./api/routes/viewsRoute');
+const commentsRoute = require('./api/routes/commentsRoute');
+const likesRoute = require('./api/routes/likesRoute');
+const sharesRoute = require('./api/routes/sharesRoute');
 
 //app.use('/', swaggerUI.serve);
 //app.get('/swagger', swaggerUI.setup(swaggerDoc));
