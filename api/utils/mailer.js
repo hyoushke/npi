@@ -10,14 +10,14 @@ exports.send_mail = () => {
         service: 'gmail',
         auth: 
         { 
-          user: 'cabanban.anna@gmail.com',
-          pass: '20152501'
+          user: 'mail.hyoushke@gmail.com',
+          pass: 'MailService2019!'
         }
     });
 
     const mail_options = {
-        from: 'cabanban.anna@gmail.com',
-        to: 'cabanban.anna@gmail.com',
+        from: 'mail.hyoushke@gmail.com',
+        to: 'mail.hyoushke@gmail.com',
         subject: 'Using Node REST API - Inline Attachment',
         
         //html: 'Hello World --> Using Utils Mailer ',
