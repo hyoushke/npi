@@ -1,6 +1,10 @@
 const ProductsService = require('../services/postsService');
 const UtilsBenchmark = require('../utils/benchmark');
-const ProductsCreateResponse = require('../response/postsResponse');
+
+const ProductsCreateResponse = require('../response/posts/postsCreateResponse');
+const ProductsCreateResponse = require('../response/posts/postsRemoveResponse');
+const ProductsCreateResponse = require('../response/posts/postsUpdateResponse');
+
 
 exports.createPosts = async (req, res, next)=>{
     try
