@@ -1,44 +1,6 @@
 const PostsModel = require('../models/postsModel');
 const mongoose = require('mongoose');
 
-
-exports.getAllProducts = () => {
-    
-    const post = PostsModel.find()
-    .select('_id name price imageurl')
-    .exec()
-    .then(rows=>{
-                if(rows.length >= 0)
-                {
-                    var products = rows.map(row=>{
-                        return {id: row._id, 
-                                authorid: row.authorid,
-                                author: row.authorname,
-                                status: row.status, 
-                                title: row.title, 
-                                content: row.content,
-                                created: row.datecreated,
-                                modified: row.dataemodified,
-                                categories: row.categories,
-                                tags: row.tags,
-                                likes: row.likes,
-                                subscribers: row.subscribers,
-                                shares: row.shares,
-                                views: row.views,
-                                imageurl: '/uploads' + row.imageurl, 
-                            }
-                    });
-
-
-                    return products;
-                }
-    })
-    .catch(err=>{console.log(err); return err;});
-
-    return products2;
-
-}
-
 exports.createProduct = async (authorid, 
                                author, 
                                status, 
@@ -54,7 +16,7 @@ exports.createProduct = async (authorid,
                                datecreated, 
                                datemodified)=>{
    
-    const Product = new ProductsModel({
+    const Product = new PostsModel({
         _id: new mongoose.Types.ObjectId(),
         _id: mongoose.Schema.Types.ObjectId,
         authorid: authorid,
@@ -97,39 +59,9 @@ exports.createProduct = async (authorid,
 
 }
 
+exports.removePost = (postId)=>{
 
-
-exports.getProductById = (productId)=>{
-
-    var data = ProductsModel.findById(productId)
-    .select('_id name price imageurl')
-    .exec()
-    .then(product=>{  
-                console.log(product); 
-                
-                let data = {count: 0, products: {}};
-                data.count = 1;
-                data.products = {
-                                    id: product._id, 
-                                    name: product.name, 
-                                    price: product.price, 
-                                    imageurl: 'http://localhost/uploads' + product.imageurl
-                                };
-                                return data;
-    })
-    .catch(err=>{
-        console.log(err);
-        return err;
-     });
-
-
-    return data;
-
-}
-
-exports.removeProductById = (productId)=>{
-
-    var data = ProductsModel.findById(productId)
+    var data = PostsModel.findById(postId)
     .select('_id name price imageurl')
     .exec()
     .then(product=>{  
@@ -156,6 +88,73 @@ exports.removeProductById = (productId)=>{
     return data;
 
 }
+
+
+
+exports.getPost = (postId)=>{
+
+    var data = PostsModel.findById(postId)
+    .select('_id name price imageurl')
+    .exec()
+    .then(product=>{  
+                console.log(product); 
+                
+                let data = {count: 0, products: {}};
+                data.count = 1;
+                data.products = {
+                                    id: product._id, 
+                                    name: product.name, 
+                                    price: product.price, 
+                                    imageurl: 'http://localhost/uploads' + product.imageurl
+                                };
+                                return data;
+    })
+    .catch(err=>{
+        console.log(err);
+        return err;
+     });
+
+
+    return data;
+}
+
+exports.listPosts = () => {
+    
+    const posts = PostsModel.find()
+    .select('_id name price imageurl')
+    .exec()
+    .then(rows=>{
+                if(rows.length >= 0)
+                {
+                    var products = rows.map(row=>{
+                        return {id: row._id, 
+                                authorid: row.authorid,
+                                author: row.authorname,
+                                status: row.status, 
+                                title: row.title, 
+                                content: row.content,
+                                created: row.datecreated,
+                                modified: row.dataemodified,
+                                categories: row.categories,
+                                tags: row.tags,
+                                likes: row.likes,
+                                subscribers: row.subscribers,
+                                shares: row.shares,
+                                views: row.views,
+                                imageurl: '/uploads' + row.imageurl, 
+                            }
+                    });
+
+
+                    return products;
+                }
+    })
+    .catch(err=>{console.log(err); return err;});
+
+    return products2;
+
+}
+
 
 
 

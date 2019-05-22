@@ -1,21 +1,49 @@
 const ProductsService = require('../services/postsService');
 const UtilsBenchmark = require('../utils/benchmark');
 
-const ProductsCreateResponse = require('../response/posts/postsCreateResponse');
-const ProductsCreateResponse = require('../response/posts/postsRemoveResponse');
-const ProductsCreateResponse = require('../response/posts/postsUpdateResponse');
+const PostsCreateResponse = require('../response/posts/postsCreateResponse');
+const PostsRemoveResponse = require('../response/posts/postsRemoveResponse');
+const PostsUpdateResponse = require('../response/posts/postsUpdateResponse');
+const PostsListResponse = require('../response/posts/postsListResponse');
+const PostsGetResponse = require('../response/posts/postsGetResponse');
 
 
 exports.createPosts = async (req, res, next)=>{
     try
     {
         const procesStart = process.hrtime();
-        const title = req.body.title;
-        const description = req.body.description;
-        const imageurl = req.body.imageurl;
+        
+        const authorid = req.body.authorid; 
+        const author = req.body.author; 
+        const status = req.body.status; 
+        const title = req.body.title; 
+        const content = req.body.content; 
+        const categories = req.body.categories; 
+        const tags = req.body.tags; 
+        const likes = 0; 
+        const subscribers = 0; 
+        const shares = 0; 
+        const views = 0; 
+        const imageurl = req.body.imageurl; 
+        const datecreated = new Date.now();
+        const datemodified = new Date.now();
 
-        const productServiceData = await postsService.createPosts(name, price, imageurl);
-        const jsonResponse = ProductsCreateResponse.SuccessResponse(productServiceData);
+        const postsServiceData = await postsService.createPosts(authorid, 
+                                                                author, 
+                                                                status, 
+                                                                title, 
+                                                                content, 
+                                                                categories, 
+                                                                tags, 
+                                                                likes, 
+                                                                subscribers, 
+                                                                shares, 
+                                                                views, 
+                                                                imageurl, 
+                                                                datecreated, 
+                                                                datemodified);
+
+        const jsonResponse = PostsCreateResponse.SuccessResponse(postsServiceData);
 
 
         const benchmarkNanoSeconds = process.hrtime(procesStart);
@@ -27,16 +55,12 @@ exports.createPosts = async (req, res, next)=>{
     }
     catch(error)
     {
-        res.status(400).json({
-            "code": 0,
-            "message": "Create Products failed",
-            "url": "http://localhost:3000/" + "products",
-            "error": error
-        })
+        const jsonResponse = PostsCreateResponse.FailedResponse(error);
+        res.status(400).json(jsonResponse)
     }
 }
 
-exports.getAllProducts = async (req, res, next)=>{
+exports.listPosts = async (req, res, next)=>{
     try
     {
         const utilsMailer = await UtilsMailer.send_mail();
@@ -58,8 +82,8 @@ exports.getAllProducts = async (req, res, next)=>{
 exports.getProduct = async (req, res, next)=>{
     try
     {
-        const productId = req.params.productId;
-        const productServiceData = await ProductsService.getProductById(productId);
+        const postId = req.params.postId;
+        const postsServiceData = await ProductsService.getProductById(productId);
 
         res.status(200).json(productServiceData);
     }
