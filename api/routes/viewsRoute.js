@@ -10,10 +10,7 @@ const SecurityCheckAuthMiddleware = require('../middlewares/check-auth');
 const ViewsController = require('../controllers/viewsController');
 
 
-router.post('/', ViewsController.createComment);
-router.patch('/:viewsId', ViewsController.updateViews);
-router.delete('/:viewsId', ViewsController.removeViews);
-
+router.post('/', ViewsController.createView);
 
 router.get('/', ViewsController.listViews);
 router.get('/:viewsId', ViewsController.getViews);
