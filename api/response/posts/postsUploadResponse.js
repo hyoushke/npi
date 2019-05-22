@@ -2,13 +2,10 @@ exports.SuccessResponse = (data)=>{
     const response = {
         status : 'OK',
         code : 200,
-        message : 'Successfully created a new post',
+        message : 'Successfully uploaded file',
         details : data,
         benchmark : 0
     }
-
-    console.log(response);
-
     return response;
 }
 

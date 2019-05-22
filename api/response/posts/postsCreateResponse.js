@@ -6,9 +6,6 @@ exports.SuccessResponse = (data)=>{
         details : data,
         benchmark : 0
     }
-
-    console.log(response);
-
     return response;
 }
 
