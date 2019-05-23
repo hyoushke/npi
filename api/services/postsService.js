@@ -16,9 +16,10 @@ exports.createPost = async (authorid,
                                datecreated, 
                                datemodified)=>{
    
+                                console.log('************************ service ****************************');
+
     const Post = new PostsModel({
         _id: new mongoose.Types.ObjectId(),
-        _id: mongoose.Schema.Types.ObjectId,
         authorid: authorid,
         author: author,
         status: status,
@@ -41,6 +42,7 @@ exports.createPost = async (authorid,
     {
         const resultData = result;
 
+        //TODO: formmatting
         //{
         // id: result._id, 
         // name: result.name, 

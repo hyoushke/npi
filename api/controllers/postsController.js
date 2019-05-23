@@ -8,7 +8,10 @@ const PostsListResponse = require('../response/posts/postsListResponse');
 const PostsGetResponse = require('../response/posts/postsGetResponse');
 
 
-exports.createPosts = async (req, res, next)=>{
+exports.createPost = async (req, res, next)=>{
+    console.log('************************ controller ****************************');
+    console.log(req.body);
+    
     try
     {
         const procesStart = process.hrtime();
@@ -25,10 +28,12 @@ exports.createPosts = async (req, res, next)=>{
         const shares = 0; 
         const views = 0; 
         const imageurl = req.body.imageurl; 
-        const datecreated = new Date.now();
-        const datemodified = new Date.now();
+        const datecreated = Date.now();
+        const datemodified = Date.now();
 
-        const postsServiceData = await postsService.createPosts(authorid, 
+        console.log(JSON.stringify(this));
+
+        const postsServiceData = await PostsService.createPost(authorid, 
                                                                 author, 
                                                                 status, 
                                                                 title, 
@@ -42,6 +47,8 @@ exports.createPosts = async (req, res, next)=>{
                                                                 imageurl, 
                                                                 datecreated, 
                                                                 datemodified);
+
+        console.log(postsServiceData);
 
         const jsonResponse = PostsCreateResponse.SuccessResponse(postsServiceData);
 
