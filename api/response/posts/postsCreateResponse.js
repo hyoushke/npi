@@ -4,7 +4,7 @@ exports.SuccessResponse = (data)=>{
         code : 200,
         message : 'Successfully created a new post',
         details : data,
-        benchmark : 0
+        benchmark : ''
     }
     return response;
 }

@@ -67,8 +67,14 @@ exports.createPost = async (authorid,
 
 exports.removePost = async (postId)=>{
 
-    console.log('************************ service ****************************');
-    const postsServiceData = await PostsModel.findByIdAndRemove({_id: postId }, err=>{return err});
+    console.log('************************ remove post service ****************************');
+    const postsServiceData = await PostsModel.findOneAndDelete({_id: postId }, (err, doc)=>{ 
+
+        if(err){
+            return err;
+        }
+        return doc;
+    });
     console.log(postsServiceData);
     
     return postsServiceData;

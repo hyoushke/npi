@@ -1,5 +1,5 @@
 const PostsService = require('../services/postsService');
-const UtilsBenchmark = require('../utils/benchmark');
+const BenchmarkUtils = require('../utils/benchmarkUtils');
 
 const PostsCreateResponse = require('../response/posts/postsCreateResponse');
 const PostsRemoveResponse = require('../response/posts/postsRemoveResponse');
@@ -10,12 +10,10 @@ const PostsGetResponse = require('../response/posts/postsGetResponse');
 
 exports.createPost = async (req, res, next)=>{
     console.log('************************ controller ****************************');
-    console.log(req.body);
     
     try
     {
-        const procesStart = process.hrtime();
-        
+        const benchmark = new BenchmarkUtils();
         const authorid = req.body.authorid; 
         const author = req.body.author; 
         const status = req.body.status; 
@@ -30,9 +28,6 @@ exports.createPost = async (req, res, next)=>{
         const imageurl = req.body.imageurl; 
         const datecreated = Date.now();
         const datemodified = Date.now();
-
-        console.log(JSON.stringify(this));
-
         const postsServiceData = await PostsService.createPost(authorid, 
                                                                 author, 
                                                                 status, 
@@ -47,17 +42,9 @@ exports.createPost = async (req, res, next)=>{
                                                                 imageurl, 
                                                                 datecreated, 
                                                                 datemodified);
-
-        console.log(postsServiceData);
-
         const jsonResponse = PostsCreateResponse.SuccessResponse(postsServiceData);
-
-
-        const benchmarkNanoSeconds = process.hrtime(procesStart);
-        const benchmarkMiliSecondsPrecise = (benchmarkNanoSeconds[0]*1000) + (benchmarkNanoSeconds[1] / 1000000)
-        jsonResponse.benchmark = (benchmarkMiliSecondsPrecise + ' ms');
-
-
+        
+        jsonResponse.benchmark = benchmark.getDuration();
         res.status(200).json(jsonResponse);
     }
     catch(error)
@@ -67,78 +54,50 @@ exports.createPost = async (req, res, next)=>{
     }
 }
 
-
-
-
-/*
 exports.updateProduct = async (req, res, next)=>{
     try
     {
+        const benchmark = new BenchmarkUtils();
         const postId = req.params.postId;
-        const postsServiceData = await PostsService.removeProductById(postId);
-
-        
-        const benchmarkNanoSeconds = process.hrtime(procesStart);
-        const benchmarkMiliSecondsPrecise = (benchmarkNanoSeconds[0]*1000) + (benchmarkNanoSeconds[1] / 1000000)
-        jsonResponse.benchmark = (benchmarkMiliSecondsPrecise + ' ms');
-
+        const postsServiceData = await PostsService.updatePost(postId);
         const jsonResponse = PostsUpdateResponse.SuccessResponse(postsServiceData);
+
+        jsonResponse.benchmark = benchmark.getDuration();
         res.status(200).json(jsonResponse);
     }
     catch(error)
     {
-        const jsonResponse = PostsCreateResponse.FailedResponse(error);
+        const jsonResponse = PostsUpdateResponse.FailedResponse(error);
         res.status(400).json(jsonResponse)
     }
 }
-*/
+
 
 exports.removePost = async (req, res, next)=>{
     try
-    {
-        console.log('************************ controller ****************************');
-
-        const procesStart = process.hrtime();
-        
+    {   const benchmark = new BenchmarkUtils();
         const postId = req.params.postId;
-        console.log(req.params);
         const postsServiceData = await PostsService.removePost(postId);
-
-        console.log(postsServiceData);
-
         const jsonResponse = PostsRemoveResponse.SuccessResponse(postsServiceData);
 
-
-        const benchmarkNanoSeconds = process.hrtime(procesStart);
-        const benchmarkMiliSecondsPrecise = (benchmarkNanoSeconds[0]*1000) + (benchmarkNanoSeconds[1] / 1000000)
-        jsonResponse.benchmark = (benchmarkMiliSecondsPrecise + ' ms');
-
-
+        jsonResponse.benchmark = benchmark.getDuration();
         res.status(200).json(jsonResponse);
     }
     catch(error)
     {
-        const jsonResponse = PostsCreateResponse.FailedResponse(error);
+        const jsonResponse = PostsRemoveResponse.FailedResponse(error);
         res.status(400).json(jsonResponse)
     }
-
 }
 
 exports.listPosts = async (req, res, next)=>{
     try
     {
-        const procesStart = process.hrtime();
-
+        const benchmark = new BenchmarkUtils();
         const postsServiceData = await PostsService.listPosts();
-
         const jsonResponse = PostsListResponse.SuccessResponse(postsServiceData);
 
-
-        const benchmarkNanoSeconds = process.hrtime(procesStart);
-        const benchmarkMiliSecondsPrecise = (benchmarkNanoSeconds[0]*1000) + (benchmarkNanoSeconds[1] / 1000000)
-        jsonResponse.benchmark = (benchmarkMiliSecondsPrecise + ' ms');
-
-
+        jsonResponse.benchmark = benchmark.getDuration();
         res.status(200).json(jsonResponse);
     }
     catch(error)
@@ -148,23 +107,23 @@ exports.listPosts = async (req, res, next)=>{
     }
 }
 
-/*
+
 exports.getProduct = async (req, res, next)=>{
     try
     {
+        const benchmark = new BenchmarkUtils();
         const postId = req.params.postId;
-        const postsServiceData = await postsService.get.getProductById(postId);
+        const postsServiceData = await PostsService.getPost(postId);
+        const jsonResponse = PostsGetResponse.SuccessResponse(postsServiceData);
 
-        res.status(200).json(productServiceData);
+        jsonResponse.benchmark = benchmark.getDuration();
+        res.status(200).json(jsonResponse);
     }
     catch(error)
     {
-        res.status(400).json({
-            "code": 0,
-            "message": "Fetch Products Failed",
-            "url": "http://localhost:3000/" + "products"
-        })
+        const jsonResponse = PostsGetResponse.FailedResponse(error);
+        res.status(400).json(jsonResponse)
     }
 }
-*/
+
 

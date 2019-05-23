@@ -4,7 +4,7 @@ exports.SuccessResponse = (data)=>{
         code : 200,
         message : 'Successfully uploaded file',
         details : data,
-        benchmark : 0
+        benchmark : ''
     }
     return response;
 }
