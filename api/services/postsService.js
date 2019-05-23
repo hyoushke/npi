@@ -67,18 +67,15 @@ exports.createPost = async (authorid,
 
 exports.removePost = async (postId)=>{
 
-    console.log('************************ remove post service ****************************');
     const postsServiceData = await PostsModel.findOneAndDelete({_id: postId }, (err, doc)=>{ 
-
-        if(err){
+        if(err)
+        {
             return err;
         }
         return doc;
     });
-    console.log(postsServiceData);
     
     return postsServiceData;
-
 }
 
 
@@ -89,24 +86,15 @@ exports.getPost = async (postId)=>{
     .findById(postId)
     .select('_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified')
     .exec()
-    .then(product=>{  
-                console.log(product); 
-                
-                let data = {count: 0, products: {}};
-                data.count = 1;
-                data.products = {
-                                    id: product._id, 
-                                    name: product.name, 
-                                    price: product.price, 
-                                    imageurl: 'http://localhost/uploads' + product.imageurl
-                                };
-                                return data;
+    .then(docs=>
+    {  
+                    return docs;
     })
-    .catch(err=>{
+    .catch(err=>
+    {
         console.log(err);
         return err;
      });
-
 
     return serviceDataPost;
 }

@@ -9,8 +9,6 @@ const PostsGetResponse = require('../response/posts/postsGetResponse');
 
 
 exports.createPost = async (req, res, next)=>{
-    console.log('************************ controller ****************************');
-    
     try
     {
         const benchmark = new BenchmarkUtils();
@@ -43,7 +41,7 @@ exports.createPost = async (req, res, next)=>{
                                                                 datecreated, 
                                                                 datemodified);
         const jsonResponse = PostsCreateResponse.SuccessResponse(postsServiceData);
-        
+
         jsonResponse.benchmark = benchmark.getDuration();
         res.status(200).json(jsonResponse);
     }
@@ -54,7 +52,7 @@ exports.createPost = async (req, res, next)=>{
     }
 }
 
-exports.updateProduct = async (req, res, next)=>{
+exports.updatePost = async (req, res, next)=>{
     try
     {
         const benchmark = new BenchmarkUtils();
@@ -108,7 +106,7 @@ exports.listPosts = async (req, res, next)=>{
 }
 
 
-exports.getProduct = async (req, res, next)=>{
+exports.getPost = async (req, res, next)=>{
     try
     {
         const benchmark = new BenchmarkUtils();
