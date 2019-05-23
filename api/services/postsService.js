@@ -126,39 +126,43 @@ exports.getPost = async (postId)=>{
 
 exports.listPosts = () => {
     
-    const posts = PostsModel
+    const postsServiceData = PostsModel
     .find()
     .select('_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified')
     .exec()
-    .then(rows=>{
-                if(rows.length >= 0)
-                {
-                    var products = rows.map(row=>{
-                        return {id: row._id, 
-                                authorid: row.authorid,
-                                author: row.authorname,
-                                status: row.status, 
-                                title: row.title, 
-                                content: row.content,
-                                created: row.datecreated,
-                                modified: row.dataemodified,
-                                categories: row.categories,
-                                tags: row.tags,
-                                likes: row.likes,
-                                subscribers: row.subscribers,
-                                shares: row.shares,
-                                views: row.views,
-                                imageurl: '/uploads' + row.imageurl, 
-                            }
-                    });
+    .then(result=>{
+                //if(rows.length >= 0)
+                //{
+                //    var products = rows.map(row=>{
+                //        return {id: row._id, 
+                //                authorid: row.authorid,
+                //                author: row.authorname,
+                //                status: row.status, 
+                //                title: row.title, 
+                //                content: row.content,
+                //                created: row.datecreated,
+                //                modified: row.dataemodified,
+                //                categories: row.categories,
+                //                tags: row.tags,
+                //                likes: row.likes,
+                //                subscribers: row.subscribers,
+                //                shares: row.shares,
+                //                views: row.views,
+                //                imageurl: '/uploads' + row.imageurl, 
+                //            }
+                //    });
 
+                    const resultData = result;
 
-                    return products;
-                }
+                    return resultData;
+                //}
     })
-    .catch(err=>{console.log(err); return err;});
+    .catch(resultError=>
+    {
+        return resultError;
+    });
 
-    return products2;
+    return postsServiceData;
 
 }
 

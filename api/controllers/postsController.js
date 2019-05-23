@@ -123,27 +123,33 @@ exports.removeProduct = async (req, res, next)=>{
 
 
 
-
+*/
 
 exports.listPosts = async (req, res, next)=>{
     try
     {
-        const utilsMailer = await UtilsMailer.send_mail();
-        const productServiceData = await PostsService.getAllProducts();
+        const procesStart = process.hrtime();
+        
+        const postsServiceData = await PostsService.listPosts();
 
-        res.status(200).json(productServiceData);
+        const jsonResponse = PostsListResponse.SuccessResponse(postsServiceData);
 
+
+        const benchmarkNanoSeconds = process.hrtime(procesStart);
+        const benchmarkMiliSecondsPrecise = (benchmarkNanoSeconds[0]*1000) + (benchmarkNanoSeconds[1] / 1000000)
+        jsonResponse.benchmark = (benchmarkMiliSecondsPrecise + ' ms');
+
+
+        res.status(200).json(jsonResponse);
     }
     catch(error)
     {
-        res.status(400).json({
-            "code": 0,
-            "message": "Fetch Products Failed",
-            "url": "http://localhost:3000/" + "products"
-        })
+        const jsonResponse = PostsListResponse.FailedResponse(error);
+        res.status(400).json(jsonResponse)
     }
 }
 
+/*
 exports.getProduct = async (req, res, next)=>{
     try
     {
@@ -161,5 +167,5 @@ exports.getProduct = async (req, res, next)=>{
         })
     }
 }
-
 */
+
