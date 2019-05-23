@@ -91,45 +91,44 @@ exports.updateProduct = async (req, res, next)=>{
         res.status(400).json(jsonResponse)
     }
 }
+*/
 
-exports.removeProduct = async (req, res, next)=>{
+exports.removePost = async (req, res, next)=>{
     try
     {
-        const postId = req.params.postId;
-        const postsServiceData = await postsService.removePost(postId);
+        console.log('************************ controller ****************************');
 
-        res.status(200).json(productServiceData);
+        const procesStart = process.hrtime();
+        
+        const postId = req.params.postId;
+        console.log(req.params);
+        const postsServiceData = await PostsService.removePost(postId);
+
+        console.log(postsServiceData);
+
+        const jsonResponse = PostsRemoveResponse.SuccessResponse(postsServiceData);
+
+
+        const benchmarkNanoSeconds = process.hrtime(procesStart);
+        const benchmarkMiliSecondsPrecise = (benchmarkNanoSeconds[0]*1000) + (benchmarkNanoSeconds[1] / 1000000)
+        jsonResponse.benchmark = (benchmarkMiliSecondsPrecise + ' ms');
+
+
+        res.status(200).json(jsonResponse);
     }
     catch(error)
     {
-        res.status(400).json({
-            "code": 0,
-            "message": "Fetch Products Failed",
-            "url": "http://localhost:3000/" + "products"
-        })
+        const jsonResponse = PostsCreateResponse.FailedResponse(error);
+        res.status(400).json(jsonResponse)
     }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
 
 exports.listPosts = async (req, res, next)=>{
     try
     {
         const procesStart = process.hrtime();
-        
+
         const postsServiceData = await PostsService.listPosts();
 
         const jsonResponse = PostsListResponse.SuccessResponse(postsServiceData);

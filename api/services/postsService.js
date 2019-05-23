@@ -65,32 +65,13 @@ exports.createPost = async (authorid,
     return postsServiceData;
 }
 
-exports.removePost = (postId)=>{
+exports.removePost = async (postId)=>{
 
-    var data = PostsModel.findById(postId)
-    .select('_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified')
-    .exec()
-    .then(product=>{  
-                
-                const data = {count: 0, products: {}};
-                data.count = 1;
-                data.products = {
-                                    id: product._id, 
-                                    name: product.name, 
-                                    price: product.price, 
-                                    imageurl: 'http://localhost/uploads' + product.imageurl
-                };
-
-                return data;
+    console.log('************************ service ****************************');
+    const postsServiceData = await PostsModel.findByIdAndRemove({_id: postId }, err=>{return err});
+    console.log(postsServiceData);
     
-    })
-    .catch(err=>{
-        console.log(err);
-        return err;
-     });
-
-
-    return data;
+    return postsServiceData;
 
 }
 
