@@ -2,19 +2,19 @@ const PostsModel = require('../models/postsModel');
 const mongoose = require('mongoose');
 
 exports.createPost = async (authorid, 
-                               author, 
-                               status, 
-                               title, 
-                               content, 
-                               categories, 
-                               tags, 
-                               likes, 
-                               subscribers, 
-                               shares, 
-                               views, 
-                               imageurl, 
-                               datecreated, 
-                               datemodified)=>{
+                            author, 
+                            status, 
+                            title, 
+                            content, 
+                            categories, 
+                            tags, 
+                            likes, 
+                            subscribers, 
+                            shares, 
+                            views, 
+                            imageurl, 
+                            datecreated, 
+                            datemodified)=>{
    
                                 console.log('************************ service ****************************');
 
@@ -65,6 +65,43 @@ exports.createPost = async (authorid,
     return postsServiceData;
 }
 
+
+exports.updatePost = async (postId,
+                            authorid, 
+                            author, 
+                            status, 
+                            title, 
+                            content, 
+                            categories, 
+                            tags, 
+                            imageurl)=>{
+
+    const changeSet = 
+    {
+        authorid: authorid,
+        author: author,
+        status: status,
+        title: title,
+        content: content,
+        categories: categories,
+        tags: tags,
+        imageurl: imageurl,
+        datemodified: Date.now()
+    };
+
+    console.log(changeSet);
+
+    const postsServiceData = await PostsModel
+    .findOneAndUpdate(postId, {$set: changeSet}, {new: true})
+    .then(doc=>{ return doc; })
+    .catch(error=>{ return error; });
+
+    console.log(postsServiceData);
+    
+    return postsServiceData;
+}
+
+
 exports.removePost = async (postId)=>{
 
     const postsServiceData = await PostsModel.findOneAndDelete({_id: postId }, (err, doc)=>{ 
@@ -99,10 +136,21 @@ exports.getPost = async (postId)=>{
     return serviceDataPost;
 }
 
-exports.listPosts = () => {
+
+exports.listPosts = (field, value, limit, page) => {
     
+    const skip = (limit * page) - limit;
+    const startat = skip + 1;
+    console.log('limit ' + limit);
+    console.log('page ' + page);
+    console.log('skipped ' + skip + ' rows, and start at row ' + startat );
+
     const postsServiceData = PostsModel
     .find()
+    .sort({author: 1})
+    .skip(skip)
+    .limit(limit)
+
     .select('_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified')
     .exec()
     .then(result=>{

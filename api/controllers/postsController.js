@@ -56,8 +56,27 @@ exports.updatePost = async (req, res, next)=>{
     try
     {
         const benchmark = new BenchmarkUtils();
+        const authorId = req.body.authorid; 
+        const author = req.body.author; 
+        const status = req.body.status; 
+        const title = req.body.title; 
+        const content = req.body.content; 
+        const categories = req.body.categories; 
+        const tags = req.body.tags; 
+        const imageurl = req.body.imageurl; 
+
         const postId = req.params.postId;
-        const postsServiceData = await PostsService.updatePost(postId);
+        const postsServiceData = await PostsService
+        .updatePost(postId,
+                    authorId,
+                    author, 
+                    status, 
+                    title, 
+                    content, 
+                    categories, 
+                    tags, 
+                    imageurl);
+
         const jsonResponse = PostsUpdateResponse.SuccessResponse(postsServiceData);
 
         jsonResponse.benchmark = benchmark.getDuration();
@@ -89,10 +108,16 @@ exports.removePost = async (req, res, next)=>{
 }
 
 exports.listPosts = async (req, res, next)=>{
+
     try
     {
         const benchmark = new BenchmarkUtils();
-        const postsServiceData = await PostsService.listPosts();
+        const limit = parseInt(req.params.limit);
+        const page = parseInt(req.params.page);
+        const field = req.params.field;
+        const value = req.param.value;
+
+        const postsServiceData = await PostsService.listPosts(field, value, limit, page);
         const jsonResponse = PostsListResponse.SuccessResponse(postsServiceData);
 
         jsonResponse.benchmark = benchmark.getDuration();
