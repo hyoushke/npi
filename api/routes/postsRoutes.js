@@ -11,9 +11,9 @@ const PostsController = require('../controllers/postsController');
 
 
 router.post('/', PostsController.createPost);
-//router.patch('/:postId', PostsController.updatePost);
+router.patch('/:postId', PostsController.updatePost);
 router.delete('/:postId', PostsController.removePost);
-//router.get('/:postId', PostsController.getPost);
+router.get('/:postId', PostsController.getPost);
 
 router.get('/', PostsController.listPosts);
 
