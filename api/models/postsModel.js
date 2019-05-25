@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 const muri = "mongodb+srv://admin:SuperPass1981@cluster0-oc3co.mongodb.net/test?retryWrites=true";
 mongoose.connect(muri);
 mongoose.Promise = global.Promise;
 
 
-const postsSchema = mongoose.Schema({
+const postsSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     authorid: {type: String, required: true},
     author: {type: String, required: true},
@@ -21,6 +22,8 @@ const postsSchema = mongoose.Schema({
     datecreated: {type: String, required: true},
     datemodified: {type: String, required: true},
 });
+
+postsSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Posts', postsSchema);
 

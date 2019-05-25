@@ -1,4 +1,5 @@
 const PostsModel = require('../models/postsModel');
+const mongoosepaginate = require('mongoose-paginate');
 const mongoose = require('mongoose');
 
 exports.createPost = async (authorid, 
