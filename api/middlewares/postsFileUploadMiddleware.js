@@ -9,6 +9,7 @@ const storage = multer.diskStorage({
     filename: function(req, file, cb){
         
         const filename = 'post-' + Date.now() +  path.extname(file.originalname);
+        req.newname = filename;
         cb(null, filename.toLowerCase());
     }
 

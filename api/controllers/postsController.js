@@ -7,6 +7,7 @@ const PostsRemoveResponse = require('../response/posts/postsRemoveResponse');
 const PostsUpdateResponse = require('../response/posts/postsUpdateResponse');
 const PostsListResponse = require('../response/posts/postsListResponse');
 const PostsGetResponse = require('../response/posts/postsGetResponse');
+const PostsUploadImageResponse = require('../response/posts/postsUploadImageResponse');
 
 
 exports.createPost = async (req, res, next)=>{
@@ -154,16 +155,16 @@ exports.uploadPostImage = async (req, res, next)=>{
     try
     {
         const benchmark = new BenchmarkUtils();
-        await console.log('req.file');
+        data = await {filename: req.newname};
     
-        const jsonResponse = PostsCreateResponse.SuccessResponse(postsServiceData);
+        const jsonResponse = PostsUploadImageResponse.SuccessResponse(data);
 
         jsonResponse.benchmark = benchmark.getDuration();
         res.status(200).json(jsonResponse);
     }
     catch(error)
     {
-        const jsonResponse = PostsCreateResponse.FailedResponse(error);
+        const jsonResponse = PostsUploadImageResponse.FailedResponse(error);
         res.status(400).json(jsonResponse)
     }
 }
