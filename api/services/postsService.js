@@ -169,9 +169,6 @@ exports.listPosts = (field, value, limit, page) => {
     .then(result=>{
                 //if(rows.length >= 0)
                 //{
-                    console.log('************************');
-                    console.log(result.docs);
-                    console.log('************************');
                     const posts = result.docs.map(doc=>
                     {
                         return {id: doc._id, 
@@ -191,11 +188,8 @@ exports.listPosts = (field, value, limit, page) => {
                                 imageurl: '/uploads' + doc.imageurl, 
                             }
                     });
-
-                    console.log('--------------------------------------------------------');
-                    console.log(posts);
-                    console.log('--------------------------------------------------------');
                     result.docs = posts;
+                    result.totalpages = Math.ceil(parseInt(result.total)/ limit);
                     return result;
                 //}
     })
