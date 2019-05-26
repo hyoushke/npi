@@ -1,4 +1,4 @@
-const PostsService = require('../services/postsService');
+const PostsService = require('../services/postsServices');
 const BenchmarkUtils = require('../utils/benchmarkUtils');
 
 const PostsCreateResponse = require('../response/posts/postsCreateResponse');

@@ -195,7 +195,7 @@ exports.listPosts = (field, value, limit, page) => {
                                 subscribers: doc.subscribers,
                                 shares: doc.shares,
                                 views: doc.views,
-                                imageurl: '/uploads' + doc.imageurl, 
+                                imageurl: process.env.HOST + process.env.UPLOAD_ROUTE + doc.imageurl, 
                             }
                     });
                     result.docs = posts;

@@ -2,8 +2,12 @@ const compression = require('compression');
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+
+
 //const swaggerUI = require('swagger-ui-express');
 //const swaggerDoc = require('./swagger.json');
+
+console.log('host is ' + process.env.HOST);
 
 const app = express();
 
