@@ -150,7 +150,7 @@ exports.listPosts = (field, value, limit, page) => {
     var query   = {};
     var options = {
         select:   '_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified',
-        sort:     {author: -1},
+        sort:     {author: 1},
         //populate: '_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified',
         //populate: '_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified',
         lean:     true,
@@ -189,7 +189,7 @@ exports.listPosts = (field, value, limit, page) => {
                             }
                     });
                     result.docs = posts;
-                    result.totalpages = Math.ceil(parseInt(result.total)/ limit);
+                    result.totalpages = Math.ceil(parseInt(result.totalDocs)/ limit);
                     return result;
                 //}
     })
