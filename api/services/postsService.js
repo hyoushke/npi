@@ -1,5 +1,4 @@
 const PostsModel = require('../models/postsModel');
-const mongoosepaginate = require('mongoose-paginate');
 const mongoose = require('mongoose');
 
 exports.createPost = async (authorid, 
@@ -147,8 +146,15 @@ exports.listPosts = (field, value, limit, page) => {
     console.log('skipped ' + skip + ' rows, and start at row ' + startat );
 
 
-    var query   = {};
-    var options = {
+    const query =
+    {
+        status: /Active/
+        //'name.last': 'Ghost',
+        //authorid: { $gt: 1, $lt: 66 },
+        //likes: { $in: ['vaporizing', 'talking'] }
+    }
+
+    const options = {
         select:   '_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified',
         sort:     {author: 1},
         //populate: '_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified',
@@ -167,6 +173,10 @@ exports.listPosts = (field, value, limit, page) => {
     //.select('_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified')
     //.exec()
     .then(result=>{
+            console.log('______________________________________________________________');
+               console.log(result);
+               console.log('______________________________________________________________');
+
                 //if(rows.length >= 0)
                 //{
                     const posts = result.docs.map(doc=>
