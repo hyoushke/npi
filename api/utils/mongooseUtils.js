@@ -4,4 +4,8 @@ const muri = `mongodb+srv://${DB_MONGO_USER}:${DB_MONGO_PASSWORD}@${DB_MONGO_HOS
 mongoose.connect(muri);
 mongoose.Promise = global.Promise;
 
-exports.mongoose = mongoose;
+console.log(mongoose);
+
+exports.mongoose = ()=>{
+    return mongoose;
+};
