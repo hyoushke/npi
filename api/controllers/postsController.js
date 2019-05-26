@@ -1,5 +1,6 @@
 const PostsService = require('../services/postsServices');
 const BenchmarkUtils = require('../utils/benchmarkUtils');
+const UtilsMailer = require('../utils/mailer');
 
 const PostsCreateResponse = require('../response/posts/postsCreateResponse');
 const PostsRemoveResponse = require('../response/posts/postsRemoveResponse');
@@ -148,5 +149,12 @@ exports.getPost = async (req, res, next)=>{
         res.status(400).json(jsonResponse)
     }
 }
+
+exports.sendMailTest = async (req, res, next)=>{
+
+    const utilsMailer = await UtilsMailer.send_mail();
+    res.status(200).json({message: 'test only'});
+}
+
 
 

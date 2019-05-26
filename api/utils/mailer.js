@@ -6,12 +6,14 @@ const ROOT_PATH = path.dirname(process.mainModule.filename);
 
 exports.send_mail = () => {
 
+    const {SMTP_HOST, SMTP_USER, SMTP_PASSWORD, SMTP_TOKEN, SMTP_CLIENTKEY} = process.env;
+
     const mail_transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: 
         { 
-          user: 'mail.hyoushke@gmail.com',
-          pass: 'MailService2019!'
+          user: SMTP_USER,
+          pass: SMTP_PASSWORD
         }
     });
 
