@@ -154,34 +154,8 @@ exports.uploadPostImage = async (req, res, next)=>{
     try
     {
         const benchmark = new BenchmarkUtils();
-        const authorid = req.body.authorid; 
-        const author = req.body.author; 
-        const status = req.body.status; 
-        const title = req.body.title; 
-        const content = req.body.content; 
-        const categories = req.body.categories; 
-        const tags = req.body.tags; 
-        const likes = 0; 
-        const subscribers = 0; 
-        const shares = 0; 
-        const views = 0; 
-        const imageurl = req.body.imageurl; 
-        const datecreated = Date.now();
-        const datemodified = Date.now();
-        const postsServiceData = await PostsService.createPost(authorid, 
-                                                                author, 
-                                                                status, 
-                                                                title, 
-                                                                content, 
-                                                                categories, 
-                                                                tags, 
-                                                                likes, 
-                                                                subscribers, 
-                                                                shares, 
-                                                                views, 
-                                                                imageurl, 
-                                                                datecreated, 
-                                                                datemodified);
+        await console.log('req.file');
+    
         const jsonResponse = PostsCreateResponse.SuccessResponse(postsServiceData);
 
         jsonResponse.benchmark = benchmark.getDuration();
