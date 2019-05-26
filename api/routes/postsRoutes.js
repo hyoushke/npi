@@ -3,8 +3,10 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 
 const PostsController = require('../controllers/postsController');
+const PostsFileUploadMiddleware = require('../middlewares/productsFileUploadMiddleware')
 
 router.post('/', PostsController.createPost);
+router.post('/uploadimage', PostsFileUploadMiddleware.uploadSingle('imageurl'), PostsController.uploadPostImage);
 router.patch('/:postId', PostsController.updatePost);
 router.delete('/:postId', PostsController.removePost);
 
