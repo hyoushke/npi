@@ -146,39 +146,57 @@ exports.listPosts = (field, value, limit, page) => {
     console.log('page ' + page);
     console.log('skipped ' + skip + ' rows, and start at row ' + startat );
 
-    const postsServiceData = PostsModel
-    .find()
-    .sort({author: 1})
-    .skip(skip)
-    .limit(limit)
 
-    .select('_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified')
-    .exec()
+    var query   = {};
+    var options = {
+        select:   '_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified',
+        sort:     {author: -1},
+        //populate: '_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified',
+        //populate: '_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified',
+        lean:     true,
+        offset:   skip, 
+        limit:    limit
+    };
+
+    const postsServiceData = PostsModel
+    .paginate(query, options)
+    //.find()
+    //.sort({author: 1})
+    //.skip(skip)
+    //.limit(limit)
+    //.select('_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified')
+    //.exec()
     .then(result=>{
                 //if(rows.length >= 0)
                 //{
-                //    var products = rows.map(row=>{
-                //        return {id: row._id, 
-                //                authorid: row.authorid,
-                //                author: row.authorname,
-                //                status: row.status, 
-                //                title: row.title, 
-                //                content: row.content,
-                //                created: row.datecreated,
-                //                modified: row.dataemodified,
-                //                categories: row.categories,
-                //                tags: row.tags,
-                //                likes: row.likes,
-                //                subscribers: row.subscribers,
-                //                shares: row.shares,
-                //                views: row.views,
-                //                imageurl: '/uploads' + row.imageurl, 
-                //            }
-                //    });
+                    console.log('************************');
+                    console.log(result.docs);
+                    console.log('************************');
+                    const posts = result.docs.map(doc=>
+                    {
+                        return {id: doc._id, 
+                                authorid: doc.authorid,
+                                author: doc.author,
+                                status: doc.status,
+                                title: doc.title, 
+                                content: doc.content,
+                                created: doc.datecreated,
+                                modified: doc.datemodified,
+                                categories: doc.categories,
+                                tags: doc.tags,
+                                likes: doc.likes,
+                                subscribers: doc.subscribers,
+                                shares: doc.shares,
+                                views: doc.views,
+                                imageurl: '/uploads' + doc.imageurl, 
+                            }
+                    });
 
-                    const resultData = result;
-
-                    return resultData;
+                    console.log('--------------------------------------------------------');
+                    console.log(posts);
+                    console.log('--------------------------------------------------------');
+                    result.docs = posts;
+                    return result;
                 //}
     })
     .catch(resultError=>
