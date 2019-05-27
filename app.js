@@ -15,11 +15,10 @@ const productRoutes = require('./api/routes/productsRoute');
 
 const postsRoutes = require('./api/routes/postsRoutes');
 const commentsRoutes = require('./api/routes/commentsRoutes');
-
-
 //const viewsRoute = require('./api/routes/viewsRoute');
 //const likesRoute = require('./api/routes/likesRoute');
 //const sharesRoute = require('./api/routes/sharesRoute');
+
 //app.use('/', swaggerUI.serve);
 //app.get('/swagger', swaggerUI.setup(swaggerDoc));
 
