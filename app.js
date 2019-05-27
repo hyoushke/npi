@@ -15,9 +15,8 @@ const productRoutes = require('./api/routes/productsRoute');
 
 const postsRoutes = require('./api/routes/postsRoutes');
 const commentsRoutes = require('./api/routes/commentsRoutes');
-//const viewsRoute = require('./api/routes/viewsRoute');
-//const likesRoute = require('./api/routes/likesRoute');
-//const sharesRoute = require('./api/routes/sharesRoute');
+//const likesRoutes = require('./api/routes/likesRoutes');
+//const sharesRoutes = require('./api/routes/sharesRoutes');
 
 //app.use('/', swaggerUI.serve);
 //app.get('/swagger', swaggerUI.setup(swaggerDoc));
@@ -95,19 +94,23 @@ app.use((req, res, next)=>{
 });
 
 app.use('/products', productRoutes);
+app.use('/users', usersRoutes);
+
 app.use('/posts', postsRoutes);
 app.use('/comments', commentsRoutes);
+
 /*
     uid - id of user viewing
     comment - comment of the the user
     postId - postid 
 */
-app.use('/likes', likesRoutes);
+
+//app.use('/likes', likesRoutes);
 /*
     uid - id of user viewing
     postId - postid 
 */
-app.use('/shares', sharesRoutes);
+//app.use('/shares', sharesRoutes);
 /*
     uid - id of user who is sharing the post
     postId - postid 
@@ -116,7 +119,7 @@ app.use('/shares', sharesRoutes);
 
 
 
-app.use('/users', usersRoutes);
+
 
 //app.use( (req, res, next)=>{
 //          res.status(200).json(
