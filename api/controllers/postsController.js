@@ -139,6 +139,12 @@ exports.getPost = async (req, res, next)=>{
         const benchmark = new BenchmarkUtils();
         const postId = req.params.postId;
         const postsServiceData = await PostsService.getPost(postId);
+        //after fetching data
+        //add new data for *views* 
+        //*removed* views for now because.. adding a counter for a view
+        //is not necessary unless this is a video.. like youtube
+        //const viewsServiceData = await viewsService.addPostView(postId);
+
         const jsonResponse = PostsGetResponse.SuccessResponse(postsServiceData);
 
         jsonResponse.benchmark = benchmark.getDuration();
@@ -175,5 +181,17 @@ exports.sendMailTest = async (req, res, next)=>{
     res.status(200).json({message: 'test only'});
 }
 
+
+exports.addViews = async (req, res, next)=>{
+
+}
+
+exports.addLikes = async (req, res, next)=>{
+
+}
+
+exports.addShares = async (req, res, next)=>{
+
+}
 
 

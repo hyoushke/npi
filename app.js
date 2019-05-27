@@ -97,10 +97,24 @@ app.use((req, res, next)=>{
 
 app.use('/products', productRoutes);
 app.use('/posts', postsRoutes);
-//app.use('/comments', commentsRoutes);
-//app.use('/shares', sharesRoutes);
-//app.use('/views', viewsRoutes);
-//app.use('/likes', likesRoutes);
+app.use('/comments', commentsRoutes);
+/*
+    uid - id of user viewing
+    comment - comment of the the user
+    postId - postid 
+*/
+app.use('/likes', likesRoutes);
+/*
+    uid - id of user viewing
+    postId - postid 
+*/
+app.use('/shares', sharesRoutes);
+/*
+    uid - id of user who is sharing the post
+    postId - postid 
+*/
+
+
 
 
 app.use('/users', usersRoutes);
