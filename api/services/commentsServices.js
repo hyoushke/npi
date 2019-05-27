@@ -1,5 +1,8 @@
 const CommentsModel = require('../models/commentsModel');
 const mongoose = require('mongoose');
+const ObjectId = require('mongoose').Types.ObjectId;
+
+
 
 exports.createComment = async (status, 
                             postid, 
@@ -7,6 +10,15 @@ exports.createComment = async (status,
                             comment, 
                             datecreated, 
                             datemodified)=>{
+
+    const isValidPostId = ObjectId.isValid(postid);
+    const isValidUserId = ObjectId.isValid(userid);
+
+    if(!isValidPostId || !isValidUserId)
+    {
+        console.log()
+        return {error: "Post Id or User Id is not Valid"};
+    }
 
     const Comment = new CommentsModel({
         _id: new mongoose.Types.ObjectId(),
@@ -54,10 +66,8 @@ exports.listComments = (field, value, limit, page) => {
     }
 
     const options = {
-        select:   '_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified',
+        select:   '_id status postid comment datecreated datemodified',
         sort:     {author: 1},
-        //populate: '_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified',
-        //populate: '_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified',
         lean:     true,
         offset:   skip, 
         limit:    limit
@@ -65,17 +75,7 @@ exports.listComments = (field, value, limit, page) => {
 
     const postsServiceData = PostsModel
     .paginate(query, options)
-    //.find()
-    //.sort({author: 1})
-    //.skip(skip)
-    //.limit(limit)
-    //.select('_id authorid author status title content categories tags likes subscribers shares views imageurl datecreated datemodified')
-    //.exec()
     .then(result=>{
-            console.log('______________________________________________________________');
-               console.log(result);
-               console.log('______________________________________________________________');
-
                 //if(rows.length >= 0)
                 //{
                     const posts = result.docs.map(doc=>
@@ -85,16 +85,6 @@ exports.listComments = (field, value, limit, page) => {
                                 author: doc.author,
                                 status: doc.status,
                                 title: doc.title, 
-                                content: doc.content,
-                                created: doc.datecreated,
-                                modified: doc.datemodified,
-                                categories: doc.categories,
-                                tags: doc.tags,
-                                likes: doc.likes,
-                                subscribers: doc.subscribers,
-                                shares: doc.shares,
-                                views: doc.views,
-                                imageurl: process.env.HOST + process.env.UPLOAD_ROUTE + doc.imageurl, 
                             }
                     });
                     result.docs = posts;
