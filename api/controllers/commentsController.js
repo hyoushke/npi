@@ -1,9 +1,7 @@
 const CommentsService = require('../services/commentsServices');
 const BenchmarkUtils = require('../utils/benchmarkUtils');
 
-const CommentsCreateResponse = require('../response/posts/postsCreateResponse');
-const CommentsListResponse = require('../response/posts/postsListResponse');
-const CommentsGetResponse = require('../response/posts/postsGetResponse');
+const CommentsResponse = require('../response/genericResponse');
 
 
 
@@ -23,14 +21,14 @@ exports.createComment = async (req, res, next)=>{
                                                                         comment, 
                                                                         datecreated, 
                                                                         datemodified);
-        const jsonResponse = CommentsCreateResponse.SuccessResponse(commentsServiceData);
 
-        jsonResponse.benchmark = benchmark.getDuration();
-        res.status(200).json(jsonResponse);
+        const r = CommentsResponse.genericResponse('comments', 'create', 'success', commentsServiceData, benchmark.getDuration());
+
+        res.status(r.code).json(r);
     }
     catch(error)
     {
-        const jsonResponse = CommentsCreateResponse.FailedResponse(error);
-        res.status(400).json(jsonResponse)
+        const r = CommentsResponse.genericResponse('comments', 'create', 'failed', error, 0);
+        res.status(r.code).json(r);
     }
 }
