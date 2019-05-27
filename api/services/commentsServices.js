@@ -1,7 +1,7 @@
 const CommentsModel = require('../models/commentsModel');
 const mongoose = require('mongoose');
 
-exports.createPost = async (status, 
+exports.createComment = async (status, 
                             postid, 
                             userid, 
                             comment, 
@@ -22,6 +22,7 @@ exports.createPost = async (status,
     .save()
     .then(result=>
     {
+        console.log(result);
         const resultData = result;
         return resultData;
     })
