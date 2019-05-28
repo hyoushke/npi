@@ -19,15 +19,13 @@ exports.createComment = async (status,
     //Check if ObjectId is Valid
     if(!isValidPostId || !isValidUserId)
     {
-        console.log()
         return {error: "Post Id or User Id is not Valid"};
     }
     //Check if ID's exist
     const isPostIdFound = await PostsModel.findById(postId).select('_id').then(doc=>{return true}).catch(error=>{return false});
-    const isUserIdFound = await UsersModel.findById(userId).select('_id').then(doc=>{return true}).catch(error=>{return false});
-    if(!isValidPostId || !isValidUserId)
+    const isUserIdFound = await UsersModel.findById(UserId).select('_id').then(doc=>{return true}).catch(error=>{return false});
+    if(!isPostIdFound || !isUserIdFound)
     {
-        console.log()
         return {error: "Post Id or User Id does not exist"};
     }
 
@@ -35,8 +33,8 @@ exports.createComment = async (status,
     const Comment = new CommentsModel({
         _id: new mongoose.Types.ObjectId(),
         status: status,
-        postid: postid,
-        userid: userid,
+        postid: postId,
+        userid: UserId,
         comment: comment,
         datecreated: datecreated,
         datemodified: datemodified,
@@ -50,9 +48,9 @@ exports.createComment = async (status,
         const resultData = result;
         return resultData;
     })
-    .catch(resultError=>
+    .catch(error=>
     {
-        return resultError;
+        return error;
     });
 
 
