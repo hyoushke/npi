@@ -69,20 +69,21 @@ const createUser = async (status, username, email, password, firstname, lastname
 };
 
 const getUser = async (userId)=>{
-
+    return {};
 };
 
 const updateUser = async (userId)=>{
-
+    return {};
 };
 
 const removeUser = async (userId)=>{
-
+    return {};
 };
 
 
 const listUsers = async ()=>{
 
+    return {};
 };
 
 

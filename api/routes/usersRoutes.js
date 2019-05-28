@@ -11,11 +11,11 @@ router.post('/logout', UsersController.logoutUser);
 //router.post('/resetpassword', UsersController.resetpasswordUser);
 //router.post('/activate', UsersController.activateUser);
 
-router.delete('/:userId', UsersController.removeUser);
-router.patch('/:userId', UsersController.updateUser );
-router.get('/:userId', UsersController.getUser );
+//router.delete('/:userId', UsersController.removeUser);
+//router.patch('/:userId', UsersController.updateUser );
+//router.get('/:userId', UsersController.getUser );
 
-router.get('/', UsersController.listUsers);
+//router.get('/', UsersController.listUsers);
 
 module.exports = router;
 

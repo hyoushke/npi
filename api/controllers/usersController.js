@@ -3,7 +3,7 @@ const UsersService = require('../services/usersServices');
 const UsersResponse = require('../response/genericResponse');
 
 
-exports.creteUser = async (req, res, next)=>{
+exports.createUser = async (req, res, next)=>{
     try
     {
         const benchmark = new BenchmarkUtils();
@@ -41,6 +41,27 @@ exports.loginUser = async (req, res, next)=> {
     try
     {
         const usersServiceData = await UsersService.loginUser(email, password);
+        
+        if(usersServiceData.status == 'FAILED') 
+        {
+            throw (usersServiceData.error);
+        }
+
+        const r = UsersResponse.genericResponse('users', 'login', 'success', usersServiceData.payload, benchmark.getDuration());
+        res.status(r.code).json(r);
+    }
+    catch(error)
+    {
+        const r = UsersResponse.genericResponse('users', 'login', 'failed', error, '0 ms');
+        res.status(r.code).json(r);
+    }
+}
+
+exports.logoutUser = async (req, res, next)=> {
+
+    try
+    {
+        const usersServiceData = await UsersServices.logoutUser(email);
         
         if(usersServiceData.status == 'FAILED') 
         {
@@ -120,7 +141,7 @@ exports.getUser = async (req, res, next)=>{
     }
 }
 
-exports.listPosts = async (req, res, next)=>{
+exports.listUsers = async (req, res, next)=>{
     try
     {
         const benchmark = new BenchmarkUtils();
@@ -129,7 +150,7 @@ exports.listPosts = async (req, res, next)=>{
         const field = req.params.field;
         const value = req.param.value;
         const userId = req.params.userId;
-        const usersServiceData = await UsersService.listPosts(field, value, limit, page);
+        const usersServiceData = await UsersService.listUsers(field, value, limit, page);
 
         if(usersServiceData.status == 'FAILED')
         {
