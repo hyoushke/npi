@@ -192,6 +192,8 @@ const logoutUser = async ()=> {
 
 exports.createUser = createUser;
 exports.updateUser = updateUser;
-exports.listUsers = listUsers;
 exports.removeUser = removeUser;
 exports.getUser = getUser;
+exports.listUsers = listUsers;
+exports.loginUser = loginUser;
+exports.logoutUser = logoutUser;

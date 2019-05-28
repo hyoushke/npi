@@ -8,43 +8,14 @@ const UsersController = require('../controllers/usersController');
 router.post('/register', UsersController.createUser);
 router.post('/login', UsersController.loginUser);
 router.post('/logout', UsersController.logoutUser);
+//router.post('/resetpassword', UsersController.resetpasswordUser);
+//router.post('/activate', UsersController.activateUser);
 
-router.get('/', UsersController.listUsers);
 router.delete('/:userId', UsersController.removeUser);
 router.patch('/:userId', UsersController.updateUser );
+router.get('/:userId', UsersController.getUser );
 
-
-router.get('/', (req, res, next)=>{
-
-    User.find()
-    .select('_id email password')
-    .exec()
-    .then(result=>{
-        return res.status(200).json(result);
-    })
-    .catch(err=>{
-        return res.status(500).json({error: err})
-    });
-
-
-});
-
-
-
-router.delete('/:userId', (req, res, next)=>{
-    const uid = req.params.userId;
-
-    User.remove({_id: uid})
-    .exec()
-    .then(result=>{
-        return res.status(200).json({message: 'User was Successfully Deleted'});
-    })
-    .catch(err=>{
-        return res.status(500).json({error: err});
-    });
-
-});
-
+router.get('/', UsersController.listUsers);
 
 module.exports = router;
 
