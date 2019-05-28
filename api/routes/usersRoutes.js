@@ -9,6 +9,11 @@ const mongoose = require('mongoose');
 
 const User = require('../models/usersModel');
 
+router.post('/register', UsersController.createUser);
+router.post('/register', UsersController.createUser);
+router.post('/register', UsersController.createUser);
+router.post('/register', UsersController.createUser);
+
 
 router.post('/signup', (req, res, next)=> {
 
