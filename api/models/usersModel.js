@@ -10,14 +10,17 @@ mongoose.Promise = global.Promise;
 
 const usersSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    email: {type: String, 
-            required: true, 
-            unique: true,
-            match: /^\S+@\S+$/},
-    password: {type: String, required: true}
-
+    status : {type: String, required : true},
+    username : {type: String, required : true},
+    firstname : {type: String, required : false},
+    lastname : {type: String, required : false},
+    email : {type: String, required: true, unique: true, match: /^\S+@\S+$/},
+    password : {type: String, required : true},
+    gender : {type: String, required : false},
+    avatar : {type: String, required : false},
+    datecreated : {type: String, required : true},
+    datemodified : {type: String, required : true}
 });
 
 usersSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model('Users', usersSchema);
-
