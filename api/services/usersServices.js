@@ -30,7 +30,7 @@ const createUser = async (status, username, email, password, firstname, lastname
             status : status,
             username : username,
             email : email,
-            password : password,
+            password : brcyptPassword,
             firstname : firstname,
             lastname : lastname,
             gender : gender,
@@ -80,7 +80,6 @@ const removeUser = async (userId)=>{
     return {};
 };
 
-
 const listUsers = async ()=>{
 
     return {};
@@ -98,12 +97,14 @@ const getUserByEmail = async (email)=>{
         .exec()
         .then(doc=>
         {
-            return doc;
+            return doc[0];
         })
         .catch(error=>
         { 
             return error
         });
+
+        console.log(userData);
 
         if(userData.email)
         {
@@ -125,15 +126,9 @@ const getUserByEmail = async (email)=>{
 };
 
 const getBrcryptPassword = async (password)=>{
-    const hash = await bcrypt.hash(password, 10, (error, hash)=>{
-        if(error)
-        {
-            return "";
-        }
-        return hash;
-    });
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    return hash;
+    return hashedPassword;
 }
 
 const isUserExists = async ()=>{
@@ -146,38 +141,34 @@ const loginUser = async (email, password)=> {
     try
     {
         const userData = await getUserByEmail(email);
-        if(userData.status == 'Failed')
+        if(userData.status == 'FAILED')
         {
             throw ("Email does not exist");
         }
 
-        const bpassword = userData.payload[0].password;
-        const token = await bcrypt.compare(password, bpassword, (err, result)=>{
-            if(err)
-            {
-                throw ("Authentication failed, Invalid email or password");
-            }
+        const hashedPassword = userData.payload[0].password;
+        const isPasswordMatch = await bcrypt.compare(password, hashedPassword);
 
-            if(result)
-            {
-                const token = jwt.sign(
-                        {
-                          email: userData.payload[0].email, 
-                          id: userData.payload[0]._id
-                        },
-                        process.env.JWT_KEY,
-                        {
-                            expiresIn: "1h"
-                        }
-                    );
+        if(isPasswordMatch)
+        {
+            const token = jwt.sign(
+                {
+                    email: userData.payload[0].email, 
+                    id: userData.payload[0]._id
+                },
+                process.env.JWT_KEY,
+                {
+                    expiresIn: "1h"
+                }
+            );
 
-                return token;
-            }
-        })
-
-
-        svc.payload.push({token: token});
-        return svc;
+            svc.payload.push({token: token});  
+            return svc;
+        }
+        else
+        {
+            throw ("Password did not match");
+        }
     }
     catch(error)
     {
@@ -185,9 +176,10 @@ const loginUser = async (email, password)=> {
         svc.status = 'FAILED';
         svc.error = error;
         return svc;
-    }}
+    }
+}
 
-const logoutUser = async ()=> {
+const logoutUser = async (email)=> {
 
 }
 

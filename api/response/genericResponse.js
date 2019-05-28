@@ -64,7 +64,12 @@ exports.genericResponse = (controller, action, type, data, benchmark)=>{
     const r = getMessage(controller, action, type);
     console.log('++++++++++++++++++++++++++++++++++++');
     console.log(r);
+    console.log(data);
     console.log('++++++++++++++++++++++++++++++++++++');
+    if(type == 'failed')
+    {
+        data = {error: data};
+    }
     const response = {
         status : r.status,
         code : r.code,

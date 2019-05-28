@@ -37,11 +37,14 @@ exports.createUser = async (req, res, next)=>{
 }
 
 exports.loginUser = async (req, res, next)=> {
-
     try
     {
+        const benchmark = new BenchmarkUtils();
+        const email = req.body.email;
+        const password = req.body.password;
+
         const usersServiceData = await UsersService.loginUser(email, password);
-        
+
         if(usersServiceData.status == 'FAILED') 
         {
             throw (usersServiceData.error);
