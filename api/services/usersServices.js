@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt  = require('bcrypt');
-const ObjectId = require('mongoose').Types.ObjectId;
+const jwt = require('jsonwebtoken');
 
+const ObjectId = require('mongoose').Types.ObjectId;
 const UsersModel = require('../models/usersModel');
 
 
@@ -139,21 +140,51 @@ const isUserExists = async ()=>{
 };
 
 const loginUser = async (email, password)=> {
+    const svc = {status: 'OK', payload: [], error: ''};
+
     try
     {
         const userData = await getUserByEmail(email);
-        if(userData)
+        if(userData.status == 'Failed')
         {
-            throw ("Email Already Exists");
+            throw ("Email does not exist");
         }
 
+        const bpassword = userData.payload[0].password;
+        const token = await bcrypt.compare(password, bpassword, (err, result)=>{
+            if(err)
+            {
+                throw ("Authentication failed, Invalid email or password");
+            }
 
+            if(result)
+            {
+                const token = jwt.sign(
+                        {
+                          email: userData.payload[0].email, 
+                          id: userData.payload[0]._id
+                        },
+                        process.env.JWT_KEY,
+                        {
+                            expiresIn: "1h"
+                        }
+                    );
+
+                return token;
+            }
+        })
+
+
+        svc.payload.push({token: token});
+        return svc;
     }
     catch(error)
     {
-
-    }
-}
+        svc.payload = [];
+        svc.status = 'FAILED';
+        svc.error = error;
+        return svc;
+    }}
 
 const logoutUser = async ()=> {
 
