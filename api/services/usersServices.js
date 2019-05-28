@@ -10,13 +10,14 @@ const createUser = async (status, username, email, password, firstname, lastname
     try
     {
         const userData = await getUserByEmail(email);
-        if(userData)
+
+        if(userData.status == 'OK')
         {
             throw ("Email Already Exists");
         }
 
         const brcyptPassword = await getBrcryptPassword(password);
-        if(brcyptPassword)
+        if(brcyptPassword == "")
         {
             throw ("Password could not be encripted");
         }
@@ -79,24 +80,47 @@ const listUsers = async ()=>{
 
 const getUserByEmail = async (email)=>{
 
-    const userData = await UsersModel.find({email: email})
-    .exec()
-    .then(doc=>{return doc})
-    .catch(error=>{ return error});
+    const data = {status: 'OK', payload: [], error: ''};
 
-    return userData;
+    try
+    {
+        const userData = await UsersModel.find({email: email})
+        .exec()
+        .then(doc=>
+        {
+            return doc;
+        })
+        .catch(error=>
+        { 
+            return error
+        });
+
+        if(userData.email)
+        {
+            data.payload.push(userData);
+            return data;
+        }
+
+        throw ("Email does not exists");
+        
+    }
+    catch(error)
+    {
+        data.status = 'FAILED';
+        data.payload = [];
+        data.error = error;
+
+        return data;
+    }
 };
 
 const getBrcryptPassword = async (password)=>{
-    const hash = bcrypt.hash(password, 10, (err, hash)=>{
-        if(err)
+    const hash = await bcrypt.hash(password, 10, (error, hash)=>{
+        if(error)
         {
-            return error;
+            return "";
         }
-        else
-        {
-            return hash;
-        }
+        return hash;
     });
 
     return hash;
@@ -106,8 +130,21 @@ const isUserExists = async ()=>{
 
 };
 
-const loginUser = async (username, password)=> {
+const loginUser = async (email, password)=> {
+    try
+    {
+        const userData = await getUserByEmail(email);
+        if(userData)
+        {
+            throw ("Email Already Exists");
+        }
 
+
+    }
+    catch(error)
+    {
+
+    }
 }
 
 const logoutUser = async ()=> {
