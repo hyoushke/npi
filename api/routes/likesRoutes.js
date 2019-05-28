@@ -7,6 +7,6 @@ const bodyParser = require('body-parser');
 const LikesController = require('../controllers/likesController');
 
 
-router.post('/', LikesController.createLike);
+router.post('/:postId', LikesController.createLike);
 
 module.exports = router;

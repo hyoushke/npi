@@ -62,10 +62,6 @@ const getMessage = (controller, action, type)=>{
 
 exports.genericResponse = (controller, action, type, data, benchmark)=>{
     const r = getMessage(controller, action, type);
-    console.log('++++++++++++++++++++++++++++++++++++');
-    console.log(r);
-    console.log(data);
-    console.log('++++++++++++++++++++++++++++++++++++');
     if(type == 'failed')
     {
         data = {error: data};
