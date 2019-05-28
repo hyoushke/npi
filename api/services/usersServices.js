@@ -7,6 +7,8 @@ const UsersModel = require('../models/usersModel');
 
 const createUser = async (status, username, email, password, firstname, lastname, gender, avatar, datecreated, datemodified)=>{
 
+    const svc = {status: 'OK', payload: [], error: ''};
+
     try
     {
         const userData = await getUserByEmail(email);
@@ -52,10 +54,16 @@ const createUser = async (status, username, email, password, firstname, lastname
             throw ("User was not Created");
         }
 
+        svc.payload.push(usersServiceData);
+        return svc;
+
     }
     catch(error)
     {
-        return {error: error};
+        svc.payload = [];
+        svc.status = 'FAILED';
+        svc.error = error;
+        return svc;
     }
 };
 

@@ -20,12 +20,12 @@ exports.creteUser = async (req, res, next)=>{
 
         const usersServiceData = await UsersService.createUser(status, username, email, password, firstname, lastname, gender, avatar, datecreated, datemodified);
 
-        if(usersServiceData.error) 
+        if(usersServiceData.status == 'FAILED') 
         {
             throw (usersServiceData.error);
         }
 
-        const r = UsersResponse.genericResponse('users', 'create', 'success', usersServiceData, benchmark.getDuration());
+        const r = UsersResponse.genericResponse('users', 'create', 'success', usersServiceData.payload, benchmark.getDuration());
 
         res.status(r.code).json(r);
     }
@@ -42,19 +42,19 @@ exports.loginUser = async (req, res, next)=> {
     {
         const usersServiceData = await UsersService.loginUser(email, password);
         
-        if(usersServiceData.error) 
+        if(usersServiceData.status == 'FAILED') 
         {
             throw (usersServiceData.error);
         }
 
-        const r = CommentsResponse.genericResponse('users', 'create', 'success', usersServiceData, benchmark.getDuration());
+        const r = UsersResponse.genericResponse('users', 'login', 'success', usersServiceData.payload, benchmark.getDuration());
 
         res.status(r.code).json(r);
 
     }
     catch(error)
     {
-        const r = usersServiceData.genericResponse('users', 'login', 'failed', error, '0 ms');
+        const r = UsersResponse.genericResponse('users', 'login', 'failed', error, '0 ms');
         res.status(r.code).json(r);
     }
     
