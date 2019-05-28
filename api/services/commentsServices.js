@@ -1,12 +1,14 @@
 const CommentsModel = require('../models/commentsModel');
+const PostsModel = require('../models/postsModel');
+const UsersModel = require('../models/usersModel');
 const mongoose = require('mongoose');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 
 
 exports.createComment = async (status, 
-                            postid, 
-                            userid, 
+                            postId, 
+                            UserId, 
                             comment, 
                             datecreated, 
                             datemodified)=>{
@@ -14,11 +16,21 @@ exports.createComment = async (status,
     const isValidPostId = ObjectId.isValid(postid);
     const isValidUserId = ObjectId.isValid(userid);
 
+    //Check if ObjectId is Valid
     if(!isValidPostId || !isValidUserId)
     {
         console.log()
         return {error: "Post Id or User Id is not Valid"};
     }
+    //Check if ID's exist
+    const isPostIdFound = await PostsModel.findById(postId).select('_id').then(doc=>{return true}).catch(error=>{return false});
+    const isUserIdFound = await UsersModel.findById(userId).select('_id').then(doc=>{return true}).catch(error=>{return false});
+    if(!isValidPostId || !isValidUserId)
+    {
+        console.log()
+        return {error: "Post Id or User Id does not exist"};
+    }
+
 
     const Comment = new CommentsModel({
         _id: new mongoose.Types.ObjectId(),
