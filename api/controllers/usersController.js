@@ -48,16 +48,102 @@ exports.loginUser = async (req, res, next)=> {
         }
 
         const r = UsersResponse.genericResponse('users', 'login', 'success', usersServiceData.payload, benchmark.getDuration());
-
         res.status(r.code).json(r);
-
     }
     catch(error)
     {
         const r = UsersResponse.genericResponse('users', 'login', 'failed', error, '0 ms');
         res.status(r.code).json(r);
     }
-    
-
-
 }
+
+exports.updateUser = async (req, res, next)=>{
+    try
+    {   const benchmark = new BenchmarkUtils();
+        const userId = req.params.userId;
+        const usersServiceData = await UsersService.updateUser(userId);
+
+        if(usersServiceData.status == 'FAILED')
+        {
+            throw (usersServiceData.error);            
+        }
+
+        const r = UsersResponse.genericResponse('users', 'update', 'success', usersServiceData.payload, benchmark.getDuration());
+        res.status(r.code).json(r);
+    }
+    catch(error)
+    {
+        const r = UsersResponse.genericResponse('users', 'update', 'failed', error, '0 ms');
+        res.status(r.code).json(r);
+    }
+}
+
+exports.removeUser = async (req, res, next)=>{
+    try
+    {   const benchmark = new BenchmarkUtils();
+        const userId = req.params.userId;
+        const usersServiceData = await UsersService.removePost(userId);
+
+        if(usersServiceData.status == 'FAILED')
+        {
+            throw (usersServiceData.error);            
+        }
+
+        const r = UsersResponse.genericResponse('users', 'remove', 'success', usersServiceData.payload, benchmark.getDuration());
+        res.status(r.code).json(r);
+    }
+    catch(error)
+    {
+        const r = UsersResponse.genericResponse('users', 'remove', 'failed', error, '0 ms');
+        res.status(r.code).json(r);
+    }
+}
+
+exports.getUser = async (req, res, next)=>{
+    try
+    {   const benchmark = new BenchmarkUtils();
+        const userId = req.params.userId;
+        const usersServiceData = await UsersService.getUser(userId);
+
+        if(usersServiceData.status == 'FAILED')
+        {
+            throw (usersServiceData.error);            
+        }
+
+        const r = UsersResponse.genericResponse('users', 'get', 'success', usersServiceData.payload, benchmark.getDuration());
+        res.status(r.code).json(r);
+    }
+    catch(error)
+    {
+        const r = UsersResponse.genericResponse('users', 'get', 'failed', error, '0 ms');
+        res.status(r.code).json(r);
+    }
+}
+
+exports.listPosts = async (req, res, next)=>{
+    try
+    {
+        const benchmark = new BenchmarkUtils();
+        const limit = parseInt(req.params.limit);
+        const page = parseInt(req.params.page);
+        const field = req.params.field;
+        const value = req.param.value;
+        const userId = req.params.userId;
+        const usersServiceData = await UsersService.listPosts(field, value, limit, page);
+
+        if(usersServiceData.status == 'FAILED')
+        {
+            throw (usersServiceData.error);            
+        }
+
+        const r = UsersResponse.genericResponse('users', 'remove', 'success', usersServiceData.payload, benchmark.getDuration());
+        res.status(r.code).json(r);
+    }
+    catch(error)
+    {
+        const r = UsersResponse.genericResponse('users', 'remove', 'failed', error, '0 ms');
+        res.status(r.code).json(r);
+    }
+}
+
+
