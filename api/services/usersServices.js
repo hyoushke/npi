@@ -106,7 +106,7 @@ const isUserExists = async ()=>{
 
 };
 
-const loginUser = async ()=> {
+const loginUser = async (username, password)=> {
 
 }
 

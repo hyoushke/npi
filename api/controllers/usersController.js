@@ -17,32 +17,28 @@ exports.creteUser = async (req, res, next)=>{
         const avatar = ''; 
         const datecreated = Date.now();
         const datemodified = Date.now();
-        const commentsServiceData = await UsersService.createUser(status, 
-                                                                        postid, 
-                                                                        userid, 
-                                                                        comment, 
-                                                                        datecreated, 
-                                                                        datemodified);
+        const usersServiceData = await UsersService.createUser(status, 
+                                                                postid, 
+                                                                userid, 
+                                                                comment, 
+                                                                datecreated, 
+                                                                datemodified);
         if(commentsServiceData.error) 
         {
             throw (commentsServiceData.error);
         }
 
-        const r = CommentsResponse.genericResponse('comments', 'create', 'success', commentsServiceData, benchmark.getDuration());
+        const r = CommentsResponse.genericResponse('users', 'create', 'success', usersServiceData, benchmark.getDuration());
 
         res.status(r.code).json(r);
     }
     catch(error)
     {
-        console.log('*********************************************');
-        console.log('CATCH');
-        console.log('*********************************************');
-
-        const r = CommentsResponse.genericResponse('comments', 'create', 'failed', error, '0 ms');
-        console.log('*********************************************');
-        console.log(r);
-        console.log('*********************************************');
-
+        const r = CommentsResponse.genericResponse('users', 'create', 'failed', error, '0 ms');
         res.status(r.code).json(r);
     }
+}
+
+exports.loginUser = async (req, res, next)=> {
+
 }
